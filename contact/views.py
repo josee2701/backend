@@ -1,13 +1,12 @@
 # views.py
 import json
 
+from config.settings import EMAIL_HOST_USER
 from django.core.mail import send_mail
 from django.http import JsonResponse
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
-
-from config.settings import EMAIL_HOST_USER
 
 from .forms import ContactForm
 
@@ -19,14 +18,13 @@ class ContactView(View):
         form = ContactForm(data)
         
         if form.is_valid():
-            contact = form.save()
 
             # Obtener los datos del formulario
-            name = contact.name
-            apellido = contact.apellido
-            email = contact.email
-            phone = contact.phone
-            message = contact.message
+            name = form.cleaned_data['name']
+            apellido = form.cleaned_data['apellido']
+            email = form.cleaned_data['email']
+            phone = form.cleaned_data['phone']
+            message = form.cleaned_data['message']
 
             # Enviar correo a tu dirección personal
             send_mail(
