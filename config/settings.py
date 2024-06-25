@@ -104,6 +104,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # Agrega la URL de tu aplicación React en desarrollo
     "http://127.0.0.1:3000",
     "https://josee2701.github.io"
+    "backend-yw41.onrender.com"
     
     # Otras URL permitidas pueden ir aquí
 ]
