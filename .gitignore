@@ -9,3 +9,6 @@ __pycache__/
 *.sqlite3
 *.log
 
+#variable de entorno:
+.env
+
