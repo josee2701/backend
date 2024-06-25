@@ -11,8 +11,11 @@ RUN pip install -r requirements.txt
 # Copia el código fuente
 COPY . .
 
-# Comando temporal para verificar las variables de entorno
-RUN env
+# Establece un argumento para el entorno
+ARG ENV=production
 
-# Comando para ejecutar el servidor
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Expone el puerto 8000
+EXPOSE 8000
+
+# Comando para ejecutar dependiendo del entorno
+CMD if [ "$ENV" = "development" ]; then python manage.py runserver 0.0.0.0:8000; else gunicorn --bind 0.0.0.0:8000 config.wsgi:application; fi

@@ -19,6 +19,8 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+DEBUG = os.getenv('DEBUG', '0') == '1'
+
 
 
 # Quick-start development settings - unsuitable for production
