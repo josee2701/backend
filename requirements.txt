@@ -1,4 +1,4 @@
-#freword
+# requirements.txt
 django
-
-django-dotenv
+python-dotenv
+django-cors-headers
