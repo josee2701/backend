@@ -30,6 +30,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'contact',  # Aquí faltaba la coma
     'corsheaders',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 MIDDLEWARE = [
@@ -138,7 +140,24 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+if DEBUG:
+    STATIC_URL = '/static/'
+    MEDIA_URL = '/media/'
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, 'static'),
+    ]
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+else:
+    CLOUDINARY_STORAGE = {
+        'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
+        'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
+        'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
+    }
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+    STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
+    STATIC_URL = f'https://res.cloudinary.com/raw/upload/v1/{os.getenv("CLOUDINARY_CLOUD_NAME")}/static/'
+    MEDIA_URL = f'https://res.cloudinary.com/raw/upload/v1/{os.getenv("CLOUDINARY_CLOUD_NAME")}/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
