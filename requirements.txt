@@ -3,3 +3,7 @@ django
 python-dotenv
 django-cors-headers
 gunicorn
+
+#base de datos
+
+psycopg2-binary

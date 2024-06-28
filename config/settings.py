@@ -17,8 +17,6 @@ DEBUG = os.getenv('DEBUG', '0') == '1'
 SECRET_KEY = os.getenv('SECRET_KEY', 'default-secret-key-if-not-set')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
 ALLOWED_HOSTS = ['backend-yw41.onrender.com', 'localhost', '127.0.0.1']
 
 # Application definition
@@ -68,12 +66,24 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': os.getenv('SQLITE_ENGINE'),
-        'NAME': os.getenv('SQLITE_NAME'),
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': os.getenv('SQLITE_ENGINE'),
+            'NAME': os.path.join(BASE_DIR, os.getenv('SQLITE_NAME')),
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': os.getenv('POSTGRES_ENGINE'),
+            'NAME': os.getenv('POSTGRES_NAME'),
+            'USER': os.getenv('POSTGRES_USER'),
+            'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+            'HOST': os.getenv('POSTGRES_HOST'),
+            'PORT': os.getenv('POSTGRES_PORT'),
+        }
+    }
 
 # Información para correo:
 
