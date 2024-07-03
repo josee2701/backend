@@ -1,8 +1,8 @@
-# views.py
 import json
 
-from django.core.mail import send_mail
+from django.core.mail import EmailMessage, send_mail
 from django.http import JsonResponse
+from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
@@ -37,14 +37,18 @@ class ContactView(View):
                 fail_silently=False,
             )
 
+            # Renderizar plantilla para el correo de confirmación
+            confirmation_html_message = render_to_string('confirmation_email.html')
+
             # Enviar correo de confirmación al usuario
-            send_mail(
+            confirmation_email = EmailMessage(
                 'Confirmación de recepción de mensaje',
-                'Hemos recibido tu mensaje y nos pondremos en contacto contigo pronto.',
+                confirmation_html_message,
                 EMAIL_HOST_USER,
-                [email],
-                fail_silently=False,
+                [email]
             )
+            confirmation_email.content_subtype = 'html'
+            confirmation_email.send()
 
             return JsonResponse({'message': 'Mensaje enviado con éxito'}, status=201)
         else:
