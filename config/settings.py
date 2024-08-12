@@ -139,25 +139,34 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
-
-if DEBUG:
-    STATIC_URL = '/static/'
-    MEDIA_URL = '/media/'
-    STATICFILES_DIRS = [
-        os.path.join(BASE_DIR, 'static'),
-    ]
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-else:
-    CLOUDINARY_STORAGE = {
-        'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
-        'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
-        'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
-    }
-    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-    STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
-    STATIC_URL = f'https://res.cloudinary.com/raw/upload/v1/{os.getenv("CLOUDINARY_CLOUD_NAME")}/static/'
-    MEDIA_URL = f'https://res.cloudinary.com/raw/upload/v1/{os.getenv("CLOUDINARY_CLOUD_NAME")}/media/'
+STATICFILES_DIRS = [
+    # os.path.join(BASE_DIR, "static"),
+    os.path.join(APPS_DIR, "static"),
+    os.path.join(APPS_DIR, "build", "static"),
+]
+MEDIA_ROOT = os.path.join(APPS_DIR, "media")
+MEDIA_URL = "media/"
+STATIC_URL = "static/"
+# Archivos Static para producción
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+AZURE_ACCOUNT_NAME = os.environ.get("AZURE_ACCOUNT_NAME")
+AZURE_BLOB_AVAIL = all([AZURE_ACCOUNT_NAME])
+if AZURE_BLOB_AVAIL:
+    AZURE_CUSTOM_DOMAIN = f"{AZURE_ACCOUNT_NAME}.blob.core.windows.net"
+    AZURE_LOCATION = ""
+    DEFAULT_FILE_STORAGE = "config.azureblob.AzureMediaStorage"
+    STATICFILES_STORAGE = "config.azureblob.AzureStaticStorage"
+    STATIC_LOCATION = "static"
+    MEDIA_LOCATION = "media"
+    STATIC_URL = f"https://{AZURE_CUSTOM_DOMAIN}/{STATIC_LOCATION}/"
+    STATIC_ROOT = STATIC_URL
+    MEDIA_URL = f"https://{AZURE_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/"
+    MEDIA_ROOT = MEDIA_URL
+    AZURE_OVERWRITE_FILES = True
+STATICFILES_DIRS = [
+    os.path.join(APPS_DIR, "static"),
+    os.path.join(APPS_DIR, "media"),
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
