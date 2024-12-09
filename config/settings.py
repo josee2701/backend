@@ -103,7 +103,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "https://josee2701.github.io",
     "https://backend-yw41.onrender.com",  # Asegúrate de incluir el protocolo
-    "https://jose-campos.netlify.app/"
+    "https://jose-campos.netlify.app"
     
     # Otras URL permitidas pueden ir aquí
 ]
