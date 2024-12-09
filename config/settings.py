@@ -100,8 +100,10 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # Agrega la URL de tu aplicación React en desarrollo
     "http://127.0.0.1:3000",
+    "http://localhost:5173",
     "https://josee2701.github.io",
-    "https://backend-yw41.onrender.com"  # Asegúrate de incluir el protocolo
+    "https://backend-yw41.onrender.com",  # Asegúrate de incluir el protocolo
+    "https://jose-campos.netlify.app/"
     
     # Otras URL permitidas pueden ir aquí
 ]
