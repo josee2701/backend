@@ -1,5 +1,6 @@
 # requirements.txt
 django
+djangorestframework
 python-dotenv
 django-cors-headers
 gunicorn
